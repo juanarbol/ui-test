@@ -1,10 +1,21 @@
 const User = require('../models/User')
 
-class UserController {
+class UsersController {
   async create (data) {
     try {
       const createPromise = User.create(data)
       const response = await createPromise
+      return response
+    } catch (err) {
+      process.nextTick(() => console.error(`Error creating user: ${err}`))
+      throw err
+    }
+  }
+
+  async votes (id) {
+    try {
+      const userVotesPromise = User.votes(id)
+      const response = await userVotesPromise
       return response
     } catch (err) {
       process.nextTick(() => console.error(`Error creating user: ${err}`))
@@ -72,10 +83,10 @@ class UserController {
   }
 }
 
-// Make controller singleton
+// Make this controller singleton
 let controller = null
 if (!controller) {
-  controller = new UserController()
+  controller = new UsersController()
 }
 
 module.exports = controller
