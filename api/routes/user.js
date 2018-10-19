@@ -1,5 +1,5 @@
 const { Router } = require('express')
-const UsersController = require('../controllers/UserController')
+const UsersController = require('../controllers/UsersController')
 
 const router = Router()
 
@@ -33,6 +33,19 @@ router.get('/:id', async (req, res) => {
   const userId = req.params.id
   try {
     const updatePromise = UsersController.show(userId)
+    const response = await updatePromise
+    res.send(response)
+  } catch (err) {
+    process.nextTick(() => {
+      res.status(500).send({ error: err })
+    })
+  }
+})
+
+router.get('/votes/:id', async (req, res) => {
+  const userId = req.params.id
+  try {
+    const updatePromise = UsersController.votes(userId)
     const response = await updatePromise
     res.send(response)
   } catch (err) {
