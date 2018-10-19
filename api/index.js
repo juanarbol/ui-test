@@ -7,8 +7,10 @@ const mongoose = require('mongoose')
 
 const User = require('./models/User')
 
+// Routes handlers
 const loginHandler = require('./routes/login')
 const userHandler = require('./routes/user')
+const boxHandler = require('./routes/box')
 
 const app = express()
 
@@ -25,13 +27,15 @@ passport.use(new LocalStrategy(User.authenticate()))
 passport.serializeUser(User.serializeUser())
 passport.deserializeUser(User.deserializeUser())
 
-// Express API setup
+// Express API configuration setup
 app.use(passport.initialize())
 app.use(passport.session())
 app.use(session(sessionOpts))
 app.use(bodyParser.urlencoded({ extended: true }))
 
+// Express routes handlers
 app.use('/login', loginHandler)
 app.use('/user', userHandler)
+app.use('/box', boxHandler)
 
 app.listen(3000, () => console.info('App running on port 3000'))
