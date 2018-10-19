@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon ."
+    "dev": "nodemon .",
+    "lint": "standard"
   },
   "keywords": [],
   "author": "Juan José <soyjuanarbol@gmail.com> (https://juanarbol.github.io/)",
