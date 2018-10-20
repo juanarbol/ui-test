@@ -1,6 +1,8 @@
 const mongoose = require('mongoose')
 const Box = require('../models/Box')
 
+// This function is just for setup project, just run it
+// in case you ruided your db
 const seedDb = async () => {
   console.info('Seeding Boxes')
   try {
