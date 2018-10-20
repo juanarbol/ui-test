@@ -1,5 +1,5 @@
 <%- include('partials/_navbar.ejs', { user: !!user }) %>
-<h1>Edit your data <%= user.name %></h1>
+<h1>Edit your data: <%= user.name %></h1>
 <form action="/user/update" method="POST"></form>
 
 <!-- Javscript form handler -->
@@ -17,15 +17,24 @@
 
     const formNode = document.querySelector('form')
 
+    const nameText = document.createElement('strong')
+    nameText.innerHTML = 'Name:'
+
     const nameInput = document.createElement('input')
     nameInput.setAttribute('type', 'text')
     nameInput.setAttribute('name', 'name')
     nameInput.value = name
 
+    const ageText = document.createElement('strong')
+    ageText.innerHTML = 'Age:'
+
     const ageInput = document.createElement('input')
     ageInput.setAttribute('type', 'number')
     ageInput.setAttribute('name', 'age')
     ageInput.value = age
+
+    const marriageText = document.createElement('strong')
+    marriageText.innerHTML = 'Marriage Status:'
   
     const marriageInput = document.createElement('input')
     marriageInput.setAttribute('type', 'text')
@@ -41,9 +50,15 @@
     submitInput.setAttribute('type', 'submit')
     submitInput.value = 'Update my bio'
 
+    formNode.appendChild(nameText)
     formNode.appendChild(nameInput)
+    
+    formNode.appendChild(ageText)
     formNode.appendChild(ageInput)
+
+    formNode.appendChild(marriageText)
     formNode.appendChild(marriageInput)
+
     formNode.appendChild(idInput)
     formNode.appendChild(submitInput)
   }

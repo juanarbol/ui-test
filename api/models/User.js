@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema({
 
 // Custom method for getting votes of any user
 userSchema.statics.votes = function (userId) {
-  return this.model('Box').find({ votes: { $elemMatch: { user: userId } } })
+  return this.model('Box').where({ votes: { $elemMatch: { user: userId } } })
 }
 
 // User passport plugin for register users and encrypt his pass

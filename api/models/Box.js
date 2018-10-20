@@ -9,6 +9,10 @@ const boxSchema = new mongoose.Schema({
     required: true,
     type: String
   },
+  imgSrc: {
+    required: true,
+    type: String
+  },
   votes: [{
     liked: Boolean,
     user: {

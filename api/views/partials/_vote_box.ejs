@@ -1,14 +1,21 @@
 <h3><%= box.name %></h3>
-<img src="<%= box.img %>" alt="<%= box.description %>">
-<%= box.votes.length %>
+<br>
+<img src="<%= box.imgSrc %>" alt="<%= box.description %>">
+<br>
+<strong><%= box.description %></strong>
 <br>
 <button class="like like-<%= index +1 %>">
   Like <%= box.name %>
 </button>
-
 <button class="dislike dislike-<%= index +1 %>">
   Dislike <%= box.name %>
 </button>
+<br>
+<div class="metrics-bar">
+  <strong class="likes likes-<%= index +1 %>"></strong>
+  <strong class="dislikes dislikes-<%= index +1 %>"></strong>
+</div>
+<span class="hidden-text hidden-text-<%= index +1 %>"></span>
 
 <!-- Ugliest styles evet -->
 <style>
@@ -23,6 +30,22 @@
   .dislike {
     background: lightgrey;
   }
+
+  .hidden-text {
+    display: none;
+  }
+
+  .likes {
+    background-color: lightgreen;
+  }
+
+  .dislikes {
+    background-color: lightcoral;
+  }
+
+  img {
+    max-height: 300px;
+  }
 </style>
 
 <!-- Javscript handler -->
@@ -32,6 +55,28 @@
   document.querySelector('.like-<%= index +1 %>').addEventListener('click', likeAction)
   document.querySelector('.dislike-<%= index +1 %>').addEventListener('click', dislikeAction)
 
+  function disableButtons () {
+    document.querySelector('.like-<%= index +1 %>').setAttribute('disabled', true)
+    document.querySelector('.dislike-<%= index +1 %>').setAttribute('disabled', true)
+  }
+
+  if (!'<%= user._id %>'.toString()) {
+    document.querySelector('.hidden-text-<%= index +1 %>').innerHTML = 'You can\'t vote unless you sign in'
+    document.querySelector('.hidden-text-<%= index +1 %>').removeAttribute('class')
+    disableButtons()
+  }
+
+  if ('<%= user._id %>'.toString()) {
+    const votes = '<%= box.votes.filter(vote => String(vote.user) === String(user._id)).length %>'
+    const numberVotes = Number(votes)
+
+    if (numberVotes >= 3) {
+      document.querySelector('.hidden-text-<%= index +1 %>').innerHTML = 'You can\'t vote more than 3 times'
+      document.querySelector('.hidden-text-<%= index +1 %>').removeAttribute('class')
+      disableButtons()
+    }
+  }
+  
   // This function wil lparse a JSON to www-x-form-url-encoded
   // Took from https://gist.github.com/lastguest/1fd181a9c9db0550a847#gistcomment-2643755
   function JSONtoUrlEncoded (obj) {
@@ -40,11 +85,13 @@
 
   // This function will go to our API
   function voteRequest (data) {
-    return axios.post('http://localhost:4500/box/vote', JSONtoUrlEncoded(data), {
+    axios.post('http://localhost:4500/box/vote', JSONtoUrlEncoded(data), {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
-      } 
+      }
     })
+
+    location.reload()
   }
 
   // NOTE: data variable y redeclare, cuz' contexts, as we now
@@ -65,9 +112,24 @@
   function dislikeAction () {
     const disLikedata = {
       boxId: '<%= box._id %>',
-      liked: true,
+      liked: false,
       userId: '<%= user._id %>'
     }
     voteRequest(disLikedata)
   }
+
+  function percentages() {
+    const totalVotes = Number('<%= box.votes.length %>')
+
+    const totalLikes = Number('<%= box.votes.filter(vote => vote.liked === true).length %>')
+    const totalDislikes = totalVotes - totalLikes
+
+    const likesPercentage =  (totalLikes / totalVotes) * (100) || 0
+    const dislikePercentage = (totalDislikes / totalVotes) * (100) || 0
+
+    document.querySelector('.likes-<%= index +1 %>').innerHTML = `Likes ${likesPercentage}%`
+    document.querySelector('.dislikes-<%= index +1 %>').innerHTML = `Dislikes ${dislikePercentage}%`
+  }
+
+  percentages()
 </script>
