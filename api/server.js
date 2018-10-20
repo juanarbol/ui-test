@@ -21,7 +21,6 @@ app.use(session(sessionOpts))
 app.use(passport.initialize())
 app.use(passport.session())
 app.use(bodyParser.urlencoded({ extended: true }))
-app.use(bodyParser.urlencoded({ extended: true }))
 app.set('view engine', 'ejs')
 
 // Express routes handlers
