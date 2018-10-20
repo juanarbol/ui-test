@@ -1,0 +1,4 @@
+<%- include('partials/_navbar.ejs', { user: !!user }) %>
+<% boxes.map((box, index) => { %>
+  <ol><%- include('partials/_vote_box.ejs', { box, index, user }) %></ol>
+<% }) %>

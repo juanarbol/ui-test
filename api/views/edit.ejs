@@ -1,0 +1,50 @@
+<%- include('partials/_navbar.ejs', { user: !!user }) %>
+<h1>Edit your data <%= user.name %></h1>
+<form action="/user/update" method="POST"></form>
+
+<!-- Javscript form handler -->
+<script>
+  window.onload = () => {
+    init()
+  }
+
+  // This function will mount edit form
+  function init () {
+    const age = '<%= user.age %>'
+    const id = '<%= user._id %>'
+    const marriageStatus = '<%= user.marriageStatus %>'
+    const name = '<%= user.name %>'
+
+    const formNode = document.querySelector('form')
+
+    const nameInput = document.createElement('input')
+    nameInput.setAttribute('type', 'text')
+    nameInput.setAttribute('name', 'name')
+    nameInput.value = name
+
+    const ageInput = document.createElement('input')
+    ageInput.setAttribute('type', 'number')
+    ageInput.setAttribute('name', 'age')
+    ageInput.value = age
+  
+    const marriageInput = document.createElement('input')
+    marriageInput.setAttribute('type', 'text')
+    marriageInput.setAttribute('name', 'marriageStatus')
+    marriageInput.value = marriageStatus
+
+    const idInput = document.createElement('input')
+    idInput.setAttribute('type', 'hidden')
+    idInput.setAttribute('name', 'id')
+    idInput.value = id
+
+    const submitInput = document.createElement('input')
+    submitInput.setAttribute('type', 'submit')
+    submitInput.value = 'Update my bio'
+
+    formNode.appendChild(nameInput)
+    formNode.appendChild(ageInput)
+    formNode.appendChild(marriageInput)
+    formNode.appendChild(idInput)
+    formNode.appendChild(submitInput)
+  }
+</script>

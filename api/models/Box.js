@@ -18,4 +18,8 @@ const boxSchema = new mongoose.Schema({
   }]
 }, { timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' } })
 
+boxSchema.statics.vote = function (boxId, votes) {
+  return this.model('Box').findByIdAndUpdate(boxId, { $push: { votes: { ...votes } } })
+}
+
 module.exports = mongoose.model('Box', boxSchema)

@@ -1,0 +1,40 @@
+<nav>
+  <a href="#">The Rule of Thumb</a>
+  <a href="#">How it works</a>
+</nav>
+
+<style>
+  nav {
+    position: relative;
+    top: 0;
+    background: lightblue;
+    min-height: 50px;
+    text-align: right;
+    min-width: 100%;
+  }
+
+  a {
+    text-decoration: none;
+    color: white;
+    font-size: 1.5em;
+    padding: 16px;
+  }
+
+  nav a:first-child {
+    text-transform: uppercase;
+  }
+</style>
+
+<!-- Javscript handler -->
+<!-- This script will mount a ugly navbar -->
+<script>
+  const loggedIn = '<%= user %>'
+  const logged = loggedIn === 'true'
+  const navEl = document.querySelector('nav')
+
+  const messageEl = document.createElement('a')
+  messageEl.setAttribute('href', (logged) ? '/user/logout' : '/user/')
+  messageEl.innerHTML = logged ? 'Log out' : 'Log in'
+
+  navEl.appendChild(messageEl)
+</script>

@@ -1,0 +1,73 @@
+<h3><%= box.name %></h3>
+<img src="<%= box.img %>" alt="<%= box.description %>">
+<%= box.votes.length %>
+<br>
+<button class="like like-<%= index +1 %>">
+  Like <%= box.name %>
+</button>
+
+<button class="dislike dislike-<%= index +1 %>">
+  Dislike <%= box.name %>
+</button>
+
+<!-- Ugliest styles evet -->
+<style>
+  button {
+    font-size: 1.5em;
+    padding: 10px;
+  }
+
+  .like {
+    background: lightgreen;
+  }
+  .dislike {
+    background: lightgrey;
+  }
+</style>
+
+<!-- Javscript handler -->
+<!-- Axios for making requests -->
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+  document.querySelector('.like-<%= index +1 %>').addEventListener('click', likeAction)
+  document.querySelector('.dislike-<%= index +1 %>').addEventListener('click', dislikeAction)
+
+  // This function wil lparse a JSON to www-x-form-url-encoded
+  // Took from https://gist.github.com/lastguest/1fd181a9c9db0550a847#gistcomment-2643755
+  function JSONtoUrlEncoded (obj) {
+    return Object.keys(obj).map(k => encodeURIComponent(k) + '=' + encodeURIComponent(obj[k])).join('&')
+  }
+
+  // This function will go to our API
+  function voteRequest (data) {
+    return axios.post('http://localhost:4500/box/vote', JSONtoUrlEncoded(data), {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      } 
+    })
+  }
+
+  // NOTE: data variable y redeclare, cuz' contexts, as we now
+  // this partial is redered multiple times, so each time, data var
+  // will appear as defined
+
+  // Like a post!
+  function likeAction () {
+    const data = {
+      boxId: '<%= box._id %>',
+      liked: true,
+      userId: '<%= user._id %>'
+    }
+    voteRequest(data)
+  }
+  
+  // Dislike a post!
+  function dislikeAction () {
+    const disLikedata = {
+      boxId: '<%= box._id %>',
+      liked: true,
+      userId: '<%= user._id %>'
+    }
+    voteRequest(disLikedata)
+  }
+</script>

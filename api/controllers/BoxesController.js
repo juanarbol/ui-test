@@ -7,7 +7,7 @@ class BoxesController {
       const boxList = await boxListPromise
       return boxList
     } catch (err) {
-      process.nextTick(() => console.error(`Error creating user: ${err}`))
+      process.nextTick(() => console.error(`Error getting boxes: ${err}`))
       throw err
     }
   }
@@ -18,7 +18,7 @@ class BoxesController {
       const response = await createPromise
       return response
     } catch (err) {
-      process.nextTick(() => console.error(`Error creating user: ${err}`))
+      process.nextTick(() => console.error(`Error creating box: ${err}`))
       throw err
     }
   }
@@ -29,7 +29,7 @@ class BoxesController {
       const findResponse = await findPromise
       return findResponse
     } catch (err) {
-      process.nextTick(() => console.error(`Error getting user: ${err}`))
+      process.nextTick(() => console.error(`Error getting box: ${err}`))
       throw err
     }
   }
@@ -40,7 +40,7 @@ class BoxesController {
       const updateResponse = await updatePromise
       return updateResponse
     } catch (err) {
-      process.nextTick(() => console.error(`Error updating user: ${err}`))
+      process.nextTick(() => console.error(`Error updating box: ${err}`))
       throw err
     }
   }
@@ -51,7 +51,18 @@ class BoxesController {
       const response = await deletePromise
       return response
     } catch (err) {
-      process.nextTick(() => console.error(`Error deleting user: ${err}`))
+      process.nextTick(() => console.error(`Error deleting box: ${err}`))
+      throw err
+    }
+  }
+
+  async vote (id, data) {
+    try {
+      const votePromise = Box.vote(id, data)
+      const voteResponse = await votePromise
+      return voteResponse
+    } catch (err) {
+      process.nextTick(() => console.error(`Error upvoting in box: ${err}`))
       throw err
     }
   }

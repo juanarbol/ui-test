@@ -1,41 +1,19 @@
-const express = require('express')
-const session = require('express-session')
 const passport = require('passport')
-const bodyParser = require('body-parser')
 const LocalStrategy = require('passport-local').Strategy
 const mongoose = require('mongoose')
 
+// Load env vars with dotenv package
+require('dotenv').config({ path: './app.env' })
+
 const User = require('./models/User')
-
-// Routes handlers
-const loginHandler = require('./routes/login')
-const userHandler = require('./routes/user')
-const boxHandler = require('./routes/box')
-
-const app = express()
-
-const sessionOpts = {
-  resave: false,
-  saveUninitialized: false,
-  secret: 'this is a super secret and secure sign :D'
-}
+const app = require('./server')
 
 mongoose.connect('mongodb://localhost/auth_demo_app', { useNewUrlParser: true })
 
 // Passport authentication setup
 passport.use(new LocalStrategy(User.authenticate()))
-passport.serializeUser(User.serializeUser())
 passport.deserializeUser(User.deserializeUser())
+passport.serializeUser(User.serializeUser())
 
-// Express API configuration setup
-app.use(passport.initialize())
-app.use(passport.session())
-app.use(session(sessionOpts))
-app.use(bodyParser.urlencoded({ extended: true }))
-
-// Express routes handlers
-app.use('/login', loginHandler)
-app.use('/user', userHandler)
-app.use('/box', boxHandler)
-
-app.listen(3000, () => console.info('App running on port 3000'))
+const PORT = process.env.PORT
+app.listen(PORT, () => console.info(`App running on port ${PORT}`))
