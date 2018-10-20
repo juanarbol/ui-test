@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha tests/**/*.js",
     "dev": "nodemon .",
     "lint": "standard",
     "start": "node lib/Db.js && node ."
@@ -24,9 +24,10 @@
     "passport-local-mongoose": "^5.0.1"
   },
   "devDependencies": {
-    "nodemon": "^1.18.4",
-    "standard": "^12.0.1",
     "chai": "^4.2.0",
-    "mocha": "^5.2.0"
+    "mocha": "^5.2.0",
+    "nodemon": "^1.18.4",
+    "sinon": "^7.0.0",
+    "standard": "^12.0.1"
   }
 }
