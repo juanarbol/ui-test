@@ -8,7 +8,7 @@ require('dotenv').config({ path: './app.env' })
 const User = require('./models/User')
 const app = require('./server')
 
-mongoose.connect('mongodb://localhost/auth_demo_app', { useNewUrlParser: true })
+mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true })
 
 // Passport authentication setup
 passport.use(new LocalStrategy(User.authenticate()))

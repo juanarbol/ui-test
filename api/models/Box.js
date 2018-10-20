@@ -1,5 +1,7 @@
 const mongoose = require('mongoose')
 
+require('dotenv').config({ path: './app.env' })
+
 const boxSchema = new mongoose.Schema({
   name: {
     required: true,

@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon .",
-    "lint": "standard"
+    "lint": "standard",
+    "start": "node lib/Db.js && node ."
   },
   "keywords": [],
   "author": "Juan José <soyjuanarbol@gmail.com> (https://juanarbol.github.io/)",
